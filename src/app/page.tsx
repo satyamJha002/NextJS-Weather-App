@@ -4,7 +4,6 @@ import { useQuery } from "@tanstack/react-query";
 import Navbar from "./component/Navbar";
 import axios from "axios";
 import { format, fromUnixTime, parseISO } from "date-fns";
-import Container from "./component/Container";
 import { convertKelvinToCelsius } from "./utils/convertKelvinToCelsius";
 import { BiDownArrow, BiUpArrow } from "react-icons/bi";
 import WeatherIcon from "./component/WeatherIcon";
