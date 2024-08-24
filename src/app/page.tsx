@@ -81,7 +81,7 @@ const Home = () => {
     queryKey: ["repoData"],
     queryFn: async () => {
       const { data } = await axios.get(
-        `http://api.openweathermap.org/data/2.5/forecast?q=${place}&appid=${process.env.NEXT_PUBLIC_API_KEY}&cnt=56`
+        `https://api.openweathermap.org/data/2.5/forecast?q=${place}&appid=${process.env.NEXT_PUBLIC_API_KEY}&cnt=56`
       );
       return data;
     },

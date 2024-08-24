@@ -2,7 +2,6 @@ import React from "react";
 import WeatherIcon from "./WeatherIcon";
 import WeatherDetails, { WeatherDetailProps } from "./WeatherDetails";
 import { convertKelvinToCelsius } from "../utils/convertKelvinToCelsius";
-import { BsArrowDown } from "react-icons/bs";
 import { BiDownArrow, BiUpArrow } from "react-icons/bi";
 
 export interface ForeCastWeatherDetailProps extends WeatherDetailProps {
