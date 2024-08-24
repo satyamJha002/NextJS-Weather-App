@@ -1,70 +1,61 @@
 import React from "react";
+import WeatherIcon from "./WeatherIcon";
+import WeatherDetails, { WeatherDetailProps } from "./WeatherDetails";
+import { convertKelvinToCelsius } from "../utils/convertKelvinToCelsius";
+import { BsArrowDown } from "react-icons/bs";
+import { BiDownArrow, BiUpArrow } from "react-icons/bi";
 
-interface DayForecast {
+export interface ForeCastWeatherDetailProps extends WeatherDetailProps {
+  weatherIcon: string;
   date: string;
-  day: {
-    condition: {
-      icon: string;
-      text: string;
-    };
-    maxtemp_f: number;
-    mintemp_f: number;
-  };
+  day: string;
+  temp: number;
+  feels_like: number;
+  temp_min: number;
+  temp_max: number;
+  description: string;
 }
 
-interface WeekForecastProps {
-  data: {
-    forecast?: {
-      forecastday: DayForecast[];
-    };
-  };
-}
-
-const WeakForecast = ({ data }: WeekForecastProps) => {
-  if (!data.forecast) {
-    return null;
-  }
+const WeakForecast = (props: ForeCastWeatherDetailProps) => {
+  const {
+    weatherIcon = "02d",
+    date = "19.09",
+    day = "Saturday",
+    temp,
+    feels_like,
+    temp_min,
+    temp_max,
+    description,
+  } = props;
   return (
-    <div className="grid grid-cols-2 sm:grid-col-2 md:grid-cols-3 lg:grid-cols-7 gap-8 w-full">
-      {data.forecast.forecastday.map((day, index) => (
-        <div
-          key={index}
-          className="bg-white/40 p-2 text-center rounded-lg flex flex-col items-center font-semibold gap-4"
-          role="group"
-          aria-label={`Forecast for ${new Date(day.date).toLocaleString(
-            "en-US",
-            { weekday: "short" }
-          )}`}
-        >
-          <p className="italic text-2xl">
-            {new Date(day.date).toLocaleString("en-US", { weekday: "short" })}
-          </p>
-          <img
-            className="w-50 h-50"
-            src={day.day.condition.icon}
-            alt={day.day.condition.text}
-            aria-label={day.day.condition.text}
-          />
-          <div>
-            <p className="bg-black/25 px-2 italic rounded-xl text-white mb-2">
-              High:{" "}
-              <span
-                aria-label={`Maximum temperature: ${day.day.maxtemp_f.toFixed()} degrees Fahrenheit`}
-              >
-                {day.day.maxtemp_f.toFixed()}°
-              </span>
-            </p>
-            <p className="bg-black/25 px-2 italic rounded-xl text-white">
-              Low:{" "}
-              <span
-                aria-label={`Minimum temperature: ${day.day.mintemp_f.toFixed()} degrees Fahrenheit`}
-              >
-                {day.day.mintemp_f.toFixed()}°
-              </span>
-            </p>
-          </div>
+    <div className="w-full bg-white border rounded-xl flex py-4 shadow-sm">
+      <section className="flex gap-4 item-center px-4">
+        <div className="flex flex-col gap-1 items-center">
+          <WeatherIcon iconName={weatherIcon} />
+          <p>{date}</p>
+          <p className="text-sm">{day}</p>
         </div>
-      ))}
+        <div className="flex flex-col px-4 items-center">
+          <span className="text-5xl">{convertKelvinToCelsius(temp ?? 0)}°</span>
+          <p className="text-xs whitespace-nowrap space-x-1">
+            <span>Feels like</span>
+            <span>{convertKelvinToCelsius(feels_like ?? 0)}°</span>
+            <div className="flex gap-2">
+              <span className="flex">
+                {convertKelvinToCelsius(temp_min ?? 0)}° <BiDownArrow />
+              </span>
+              <span className="flex">
+                {convertKelvinToCelsius(temp_max ?? 0)}° <BiUpArrow />
+              </span>
+            </div>
+          </p>
+          <p className="capitalize text-center">{description}</p>
+        </div>
+      </section>
+
+      <section className="overflow-x-auto flex justify-between gap-4 px-4 w-full pr-10">
+        <WeatherDetails {...props} />
+      </section>
     </div>
   );
 };

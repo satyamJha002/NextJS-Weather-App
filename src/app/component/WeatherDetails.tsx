@@ -1,143 +1,75 @@
 import React from "react";
-import { GiWindyStripes } from "react-icons/gi";
+import { BsEye } from "react-icons/bs";
 import { WiHumidity } from "react-icons/wi";
-import { GiCompass } from "react-icons/gi";
-import { BsSunrise } from "react-icons/bs";
-import { BsSunset } from "react-icons/bs";
-import { MdAir } from "react-icons/md";
-import { MdVisibility } from "react-icons/md";
-interface WeatherDetailsProps {
-  data: {
-    current?: {
-      wind_mph: number;
-      humidity: number;
-      wind_dir: string;
-      pressure_mb: number;
-      feelslike_f: number;
-      vis_km: number;
-    };
-    forecast?: {
-      forecastday: {
-        astro: {
-          sunrise: string;
-          sunset: string;
-        };
-      }[];
-    };
-  };
+import { FaWind } from "react-icons/fa";
+import { ImMeter } from "react-icons/im";
+import { WiSunrise } from "react-icons/wi";
+import { WiSunset } from "react-icons/wi";
+
+export interface WeatherDetailProps {
+  visability: string;
+  humidity: string;
+  windSpeed: string;
+  airPressure: string;
+  sunrise: string;
+  sunset: string;
+}
+export default function WeatherDetails({
+  windSpeed = "7 km/h",
+  visability = "25km",
+  humidity = "61%",
+  airPressure = "1012 hPa",
+  sunrise = "6.20",
+  sunset = "18.48",
+}: WeatherDetailProps) {
+  return (
+    <>
+      <SingleWeatherDetail
+        icon={<BsEye />}
+        information="Visablity"
+        value={visability}
+      />
+      <SingleWeatherDetail
+        icon={<WiHumidity />}
+        information="Humidity"
+        value={humidity}
+      />
+      <SingleWeatherDetail
+        icon={<FaWind />}
+        information="WindSpeed"
+        value={windSpeed}
+      />
+      <SingleWeatherDetail
+        icon={<ImMeter />}
+        information="Air pressure"
+        value={airPressure}
+      />
+      <SingleWeatherDetail
+        icon={<WiSunrise />}
+        information="Sunrise"
+        value={sunrise}
+      />
+      <SingleWeatherDetail
+        icon={<WiSunset />}
+        information="Sunset"
+        value={sunset}
+      />
+    </>
+  );
 }
 
-const WeatherDetails = ({ data }: WeatherDetailsProps) => {
-  if (!data.current) {
-    return null;
-  }
+export interface SingleWeatherDetailProps {
+  information: string;
+  icon: React.ReactNode;
+  value: string;
+}
 
+function SingleWeatherDetail(props: SingleWeatherDetailProps) {
   return (
-    <div className="p-12">
-      <h1 className="mb-4 text-2xl text-white italic font-bold">
-        Weather Details
-      </h1>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 text-center italic font-bold">
-        <div className="bg-white/50 flex p-4 items-center justify-center gap-6 rounded-xl">
-          <div className="text-2xl">
-            <h3>Wind Speed</h3>
-            <h3
-              className="text-white bg-black/25 rounded-xl mt-1"
-              aria-label={`Wind Speed: ${data.current.wind_mph} mph`}
-            >
-              {data.current.wind_mph} mph
-            </h3>
-          </div>
-          <GiWindyStripes className="text-[50px]" />
-        </div>
-        <div className="bg-white/50 flex p-4 items-center justify-center gap-6 rounded-xl">
-          <div className="text-2xl">
-            <h3>Humidity</h3>
-            <h3
-              className="text-white bg-black/25 rounded-xl mt-1"
-              aria-label={`Humidity: ${data.current.humidity}%`}
-            >
-              {data.current.humidity}%
-            </h3>
-          </div>
-          <WiHumidity className="text-[50px]" />
-        </div>
-        <div className="bg-white/50 flex p-4 items-center justify-center gap-6 rounded-xl">
-          <div className="text-2xl">
-            <h3>Wind Direction</h3>
-            <h3
-              className="text-white bg-black/25 rounded-xl mt-1"
-              aria-label={`Wind Direction: ${data.current.wind_dir}`}
-            >
-              {data.current.wind_dir}
-            </h3>
-          </div>
-          <GiCompass className="text-[50px]" />
-        </div>
-        <div className="bg-white/50 flex p-4 items-center justify-center gap-6 rounded-xl">
-          <div className="text-2xl">
-            <h3>Sunrise</h3>
-            <h3
-              className="text-white bg-black/25 rounded-xl mt-1 px-2"
-              aria-label={`Sunrise: ${data.forecast?.forecastday[0]?.astro.sunrise}`}
-            >
-              {data.forecast?.forecastday[0]?.astro.sunrise}
-            </h3>
-          </div>
-          <BsSunrise className="text-[50px]" />
-        </div>
-        <div className="bg-white/50 flex p-4 items-center justify-center gap-6 rounded-xl">
-          <div className="text-2xl">
-            <h3>Sunset</h3>
-            <h3
-              className="text-white bg-black/25 rounded-xl mt-1 px-2"
-              aria-label={`Sunset: ${data.forecast?.forecastday[0]?.astro.sunset}`}
-            >
-              {data.forecast?.forecastday[0]?.astro.sunset}
-            </h3>
-          </div>
-          <BsSunset className="text-[50px]" />
-        </div>
-        <div className="bg-white/50 flex p-4 items-center justify-center gap-6 rounded-xl">
-          <div className="text-2xl">
-            <h3>Air Pressure</h3>
-            <h3
-              className="text-white bg-black/25 rounded-xl mt-1"
-              aria-label={`Air Pressure: ${data.current.pressure_mb} hPa`}
-            >
-              {data.current.pressure_mb} hPa
-            </h3>
-          </div>
-          <MdAir className="text-[50px]" />
-        </div>
-        <div className="bg-white/50 flex p-4 items-center justify-center gap-6 rounded-xl">
-          <div className="text-2xl">
-            <h3>Feels Like</h3>
-            <h3
-              className="text-white bg-black/25 rounded-xl mt-1"
-              aria-label={`Feels Like: ${data.current.feelslike_f}°`}
-            >
-              {data.current.feelslike_f}°
-            </h3>
-          </div>
-          <GiWindyStripes className="text-[50px]" />
-        </div>
-        <div className="bg-white/50 flex p-4 items-center justify-center gap-6 rounded-xl">
-          <div className="text-2xl">
-            <h3>Visibility</h3>
-            <h3
-              className="text-white bg-black/25 rounded-xl mt-1"
-              aria-label={`Visibility: ${data.current.vis_km} km`}
-            >
-              {data.current.vis_km} km
-            </h3>
-          </div>
-          <MdVisibility className="text-[50px]" />
-        </div>
-      </div>
+    <div className="flex flex-col justify-between gap-2 items-center text-xs font-semibold text-black/80">
+      <p className="whitespace-nowrap">{props.information}</p>
+      <div className="text-3xl">{props.icon}</div>
+      <p>{props.value}</p>
     </div>
   );
-};
-
-export default WeatherDetails;
+}
